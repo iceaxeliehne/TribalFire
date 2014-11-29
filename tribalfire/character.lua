@@ -39,7 +39,7 @@ function updatePlayer()
 		end
 	elseif player.state == 'hovering' then
 		delay = delay + 1
-		if delay == 10 then
+		if delay == 60 then
 			player.state = 'jumpingDown'
 		end
 	elseif player.state == 'jumpingDown' then
@@ -60,8 +60,8 @@ function playerJump()
 	player.state = 'jumpUp'
 end
 
-<<<<<<< HEAD
+--<<<<<<< HEAD
 --timer.performWithDelay( 1000, playerJump, 1 )
-=======
-timer.performWithDelay( 1000, playerJump, 1 )
->>>>>>> 0bf29eb356d340cdba75e44355a41f0668f4642b
+--=======
+--timer.performWithDelay( 1000, playerJump, 1 )
+-->>>>>>> 0bf29eb356d340cdba75e44355a41f0668f4642b

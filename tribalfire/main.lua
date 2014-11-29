@@ -5,7 +5,8 @@
 -----------------------------------------------------------------------------------------
 
 -- Your code here
-
+local screenHeight = display.viewableContentHeight
+local screenWidth = display.viewableContentWidth
 
 display.setStatusBar(display.HiddenStatusBar)
 
@@ -27,6 +28,9 @@ local function update(event)
 	updatePlayer()
 	updateTiles()
 end
+
+local tetrisHand = display.newRect(screenWidth/2,30,screenWidth+100,60)
+tetrisHand:setFillColor(0)
 
 function updateTiles()
 	test:tileUpdate()

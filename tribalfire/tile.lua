@@ -1,4 +1,7 @@
 
+local screenHeight = display.viewableContentHeight
+local screenWidth = display.viewableContentWidth
+
 local tileClass = {}
 
  -- table titled with class name holds the functions of the class
@@ -37,6 +40,9 @@ function tileClass:tileUpdate()
 			self.collisionState = 1
 			self:collisionHandler()
 		end
+	elseif self.state == 'slider' then
+		self.t.x = self.t.x + 0.2
+		if self.t.x >= (screenWidth - (handCounter * ))
 	end
 end
 

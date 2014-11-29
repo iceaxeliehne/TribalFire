@@ -23,24 +23,24 @@ backgroundnear2.y = display.contentCenterY - 20
 local blocks = display.newGroup()
 
 --ground position
-local groundMin = 420
+local groundMin = 200
 local groundMax = 340
-local groundLevel = groundMin
+local groundLevel = screenHeight 
 local speed = 1
 
 --loop to generate ground
-for a = 1, 8, 1 do
+for a = 1, 20, 1 do
 	isDone = false
 
 	--chose ground texture
 	numGen = math.random(2)
 	local newBlock
 	if (numGen == 1 and isDone == false) then
-		newBlock = display.newImage("images/ground1.png")
+		newBlock = display.newImageRect("images/tilesets/PlatformTiles_brownNature_ByEris_0_64/tile_00.png",40,40)
 		isDone = true
 	end
 	if (numGen == 2 and isDone == false) then
-		newBlock = display.newImage("images/ground2.png")
+		newBlock = display.newImageRect("images/tilesets/PlatformTiles_brownNature_ByEris_0_64/tile_00.png",40,40)
 		isDone = true
 	end
 
@@ -49,7 +49,7 @@ for a = 1, 8, 1 do
 	newBlock.id = a
 
 	--set block position based on its id
-	newBlock.x = (a * 79) - 79
+	newBlock.x = (a * 40) - 40
 	newBlock.y = groundLevel
 	blocks:insert(newBlock)
 end
@@ -64,11 +64,11 @@ end]]--
 function updateBlocks()
 	for a =1, blocks.numChildren, 1 do
 		if (a > 1) then
-			newX = (blocks[a - 1]).x + 79
+			newX = (blocks[a - 1]).x + 40
 		else
-			newX = (blocks[8]).x + 79 - speed
+			newX = (blocks[20]).x + 40 - speed
 		end
-		if ((blocks[a]).x < -40) then
+		if ((blocks[a]).x < -80) then
 			(blocks[a]).x, (blocks[a]).y = newX, groundLevel
 		else
 			(blocks[a]):translate(speed * -1,0)
