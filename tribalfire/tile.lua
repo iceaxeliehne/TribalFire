@@ -42,7 +42,7 @@ function tileClass:tileUpdate()
 		end
 	elseif self.state == 'slider' then
 		self.t.x = self.t.x + 0.2
-		if self.t.x >= (screenWidth - (handCounter * ))
+		--if self.t.x >= (screenWidth - (handCounter * ))
 	end
 end
 

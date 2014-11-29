@@ -8,8 +8,10 @@ local screenWidth = display.viewableContentWidth
 local backbackground = display.newImage("images/backgrounds/bg.png", display.contentCenterX, display.contentCenterY)
 
 
-local backgroundfar = display.newImage("images/backgrounds/bgfar1.png", display.contentCenterX, display.contentCenterY )
+--Liam...as with near background (see later)...use 2 far background images to allow continuity when they drift off screen
 
+local backgroundfar1 = display.newImage("images/backgrounds/bgfar1---marker2.png", 0, display.contentCenterY + 100  )
+local backgroundfar2 = display.newImage("images/backgrounds/bgfar1---marker2.png", 1870, display.contentCenterY + 100 )
 
 local backgroundnear1 = display.newImage("images/bgnear2.png")
 backgroundnear1.x = 240
@@ -77,9 +79,33 @@ function updateBlocks()
 end
 
 function updateBackgrounds()
-	--far bg movement
-	backgroundfar.x = backgroundfar.x - (speed / 55)
 
+    
+	--far bg movement
+
+	-- Slow it down to test 
+	-- backgroundfar.x = backgroundfar.x - (speed)
+	--backgroundfar.x = backgroundfar.x - (speed / 55)
+	
+
+--*****************************
+	--NEW far bg movement
+	--backgroundfar1.x = backgroundfar1.x - (speed / 5)
+	backgroundfar1.x = backgroundfar1.x - (speed)
+-- if the sprite has moved off screen move it to other side
+	if (backgroundfar1.x < -1880) then
+		backgroundfar1.x = 1870
+	end
+
+	--backgroundfar2.x = backgroundfar2.x - (speed / 5)
+	backgroundfar2.x = backgroundfar2.x - (speed)
+	if (backgroundfar2.x < -1880) then
+		backgroundfar2.x = 1870
+	end
+
+--*****************************
+
+	
 	--near bg movement
 	backgroundnear1.x = backgroundnear1.x - (speed / 5)
 	-- if the sprite has moved off screen move it to other side
