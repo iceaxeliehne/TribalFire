@@ -22,16 +22,23 @@ local character = require('character')
 local tile = require('tile')
 --local platform = require('platform')
 
-local tiles = display.newGroup()
+tiles = display.newGroup()
+
+local test = platformClass:new(level.tiles.tile1)
+
+test:activate()
 
 local function update(event)
 	updateBackgrounds()
 	updateBlocks()
 	updatePlayer()
-	--speed = speed + .05
+	updateTiles()
 end
 
-local test = platformClass:new(level.tiles.tile1)
-test:activate()
+function updateTiles()
+	test:tileUpdate()
+end
+
+
 
 Runtime:addEventListener( "enterFrame", update )

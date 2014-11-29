@@ -8,6 +8,7 @@ local tileClass = {}
 
  function tileClass:new(params)
  	local newInstance = params
+
  	self.__index = self
  	return setmetatable( newInstance, self )
  end
@@ -29,10 +30,10 @@ end]]--
 
 -- public functions
 
-function tileClass:update()
+function tileClass:tileUpdate()
 	if self.state == 'scrolling' then
-		self.x = self.x - speed
-		if self.x <= 164 and self.collisionState == 0 then
+		self.t.x = self.t.x - 1
+		if self.t.x <= 164 and self.collisionState == 0 then
 			self.collisionState = 1
 			self:collisionHandler()
 		end
@@ -40,13 +41,10 @@ function tileClass:update()
 end
 
 function tileClass:activate()
-	print('activate test')
-	print(self.image)
-	print(self.x)
-	local t = display.newImage(self.image)
-	t.x = self.x
-	t.y = self.y
-	tiles:insert(t)
+	self.t = display.newImage(self.image)
+	self.t.x = self.x
+	self.t.y = self.y
+	--tiles:insert(self.t)
 end
 
 
@@ -65,6 +63,8 @@ end
 -- Platform class
 
 platformClass = tileClass:new({})
+
+
 
 function platformClass:collisionHandler()
 	playerJump()
