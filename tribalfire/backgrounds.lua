@@ -5,21 +5,19 @@ local screenWidth = display.viewableContentWidth
 
 
 -- adds image centered at x,y co-ords
-local backbackground = display.newImage("images/background.png")
-backbackground.x = 240
-backbackground.y = 160
+local backbackground = display.newImage("images/backgrounds/bg.png", display.contentCenterX, display.contentCenterY)
 
-local backgroundfar = display.newImage("images/bgfar1.png")
-backgroundfar.x = 480
-backgroundfar.y = 160
+
+local backgroundfar = display.newImage("images/backgrounds/bgfar1.png", display.contentCenterX, display.contentCenterY )
+
 
 local backgroundnear1 = display.newImage("images/bgnear2.png")
 backgroundnear1.x = 240
-backgroundnear1.y = 160
+backgroundnear1.y = display.contentCenterY - 20
 
 local backgroundnear2 = display.newImage("images/bgnear2.png")
 backgroundnear2.x = 760
-backgroundnear2.y = 160
+backgroundnear2.y = display.contentCenterY - 20
 
 --group to hold blocks
 local blocks = display.newGroup()
@@ -37,7 +35,6 @@ for a = 1, 8, 1 do
 	--chose ground texture
 	numGen = math.random(2)
 	local newBlock
-	print (numGen)
 	if (numGen == 1 and isDone == false) then
 		newBlock = display.newImage("images/ground1.png")
 		isDone = true
