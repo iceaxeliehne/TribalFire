@@ -6,7 +6,10 @@ Ninja:
 
 http://opengameart.org/content/platformer-or-fighter-sprites
 
-Sounds:
+Sound Effects:
 
 http://www.freesfx.co.uk/
 
+Gameover Song:
+
+Everybody loves Kung Fu Fighting - Carl Douglas (8.5 sec)
