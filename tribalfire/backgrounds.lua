@@ -7,11 +7,17 @@ local screenWidth = display.viewableContentWidth
 -- adds image centered at x,y co-ords
 local backbackground = display.newImage("images/backgrounds/bg.png", display.contentCenterX, display.contentCenterY)
 
+-- HELPFUL positional markers...IF YOU NEED 'EM'
+--local Marker100 = display.newImage("images/backgrounds/100-Marker.png", 100, display.contentCenterY + 100  )
+--local Marker500 = display.newImage("images/backgrounds/500-Marker.png", 500, display.contentCenterY + 100  )
+--local Marker1100 = display.newImage("images/backgrounds/1100-Marker.png", 1100, display.contentCenterY + 100  )
+
 
 --Liam...as with near background (see later)...use 2 far background images to allow continuity when they drift off screen
-
-local backgroundfar1 = display.newImage("images/backgrounds/bgfar1---marker2.png", 0, display.contentCenterY + 100  )
-local backgroundfar2 = display.newImage("images/backgrounds/bgfar1---marker2.png", 1870, display.contentCenterY + 100 )
+local speederUppererForTesting = 55
+local levelSetterForTesting = 0
+local backgroundfar1 = display.newImage("images/backgrounds/bgfar1---best-one.png", 0, display.contentCenterY + levelSetterForTesting )
+local backgroundfar2 = display.newImage("images/backgrounds/bgfar1---best-one.png", 1880, display.contentCenterY + levelSetterForTesting )
 
 local backgroundnear1 = display.newImage("images/bgnear2.png")
 backgroundnear1.x = 240
@@ -83,24 +89,20 @@ function updateBackgrounds()
     
 	--far bg movement
 
-	-- Slow it down to test 
-	-- backgroundfar.x = backgroundfar.x - (speed)
-	--backgroundfar.x = backgroundfar.x - (speed / 55)
+	-- SPEED it down to test - IF YOU NEED TO...HERE IS AN EXAMPL
+	--backgroundfar.x = backgroundfar.x - (speed)
 	
-
 --*****************************
-	--NEW far bg movement
-	--backgroundfar1.x = backgroundfar1.x - (speed / 5)
-	backgroundfar1.x = backgroundfar1.x - (speed)
+	backgroundfar1.x = backgroundfar1.x - (speed/speederUppererForTesting)
 -- if the sprite has moved off screen move it to other side
-	if (backgroundfar1.x < -1880) then
-		backgroundfar1.x = 1870
+	if (backgroundfar1.x < -1930) then
+		backgroundfar1.x = 1830
 	end
 
 	--backgroundfar2.x = backgroundfar2.x - (speed / 5)
-	backgroundfar2.x = backgroundfar2.x - (speed)
-	if (backgroundfar2.x < -1880) then
-		backgroundfar2.x = 1870
+	backgroundfar2.x = backgroundfar2.x - (speed/speederUppererForTesting)
+	if (backgroundfar2.x < -1930) then
+		backgroundfar2.x = 1830
 	end
 
 --*****************************
