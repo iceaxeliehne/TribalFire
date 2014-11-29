@@ -16,7 +16,7 @@ level ={
 			-- tile 2 ground (clone of tile 1)
 			image = 'images/tilesets/PlatformTiles_brownNature_ByEris_0_64/tile_00.png',
 			x = -25,
-			y = 32,
+			y = 35,
 			state = 'slider',
 			collisionState = 0
 		}
