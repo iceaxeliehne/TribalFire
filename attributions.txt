@@ -6,6 +6,7 @@ Ninja:
 
 http://opengameart.org/content/platformer-or-fighter-sprites
 
-Tutorials:
+Sounds:
 
-Using a sprite sheet: 
+http://www.freesfx.co.uk/
+
