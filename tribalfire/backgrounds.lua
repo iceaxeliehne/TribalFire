@@ -14,7 +14,7 @@ local backbackground = display.newImage("images/backgrounds/bg.png", display.con
 
 
 --Liam...as with near background (see later)...use 2 far background images to allow continuity when they drift off screen
-local speederUppererForTesting = 55
+local speederUppererForTesting = 8
 local levelSetterForTesting = 0
 local backgroundfar1 = display.newImage("images/backgrounds/bgfar1---best-one.png", 0, display.contentCenterY + levelSetterForTesting )
 local backgroundfar2 = display.newImage("images/backgrounds/bgfar1---best-one.png", 1880, display.contentCenterY + levelSetterForTesting )
