@@ -41,8 +41,16 @@ function tileClass:tileUpdate()
 			self:collisionHandler()
 		end
 	elseif self.state == 'slider' then
+<<<<<<< HEAD
 		self.t.x = self.t.x + 0.2
 		--if self.t.x >= (screenWidth - (handCounter * ))
+=======
+		self.t.x = self.t.x + 1
+		if self.t.x >= (screenWidth - 60) then
+			handCounter = handCounter +1
+			self.state = 'static'
+		end
+>>>>>>> 04b49262be16a89619d95dc3f42aa3ca89f98e41
 	end
 end
 
@@ -50,7 +58,7 @@ function tileClass:activate()
 	self.t = display.newImageRect(self.image,40,40)
 	self.t.x = self.x
 	self.t.y = self.y
-	--tiles:insert(self.t)
+	tiles:insert(self.t)
 end
 
 
@@ -76,4 +84,7 @@ function platformClass:collisionHandler()
 	--print('test')
 	playerJump()
 end
+
+-- tile generator
+--function addTile
 

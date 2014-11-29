@@ -22,14 +22,18 @@ player.jumpFrom = 0
 
 player:play()
 
+ local playerYell = audio.loadStream("sounds/yell.mp3")
+
+
 function updatePlayer()
 	if player.state == 'walking' then
 		return
 	elseif player.state == 'jumpUp' then
 		player.jumpFrom = player.y 
 		player.state = 'jumpingUp'
-    player:setSequence("jumping")
-	  player:play()
+    	player:setSequence("jumping")
+	  	player:play()
+	  	audio.play(playerYell)
 	elseif player.state == 'jumpingUp' then
 		--change value for jumping speed
 		player.y = player.y - 5
@@ -41,6 +45,7 @@ function updatePlayer()
 		delay = delay + 1
 		if delay == 60 then
 			player.state = 'jumpingDown'
+			delay = 0
 		end
 	elseif player.state == 'jumpingDown' then
 		-- change value for falling speed
