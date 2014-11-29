@@ -1,9 +1,11 @@
-
 local screenHeight = display.viewableContentHeight
 local ground = screenHeight - 50
 
 -- A sprite sheet with a green dude
 local ninjasheet = graphics.newImageSheet( "images/ninja/complete.png", { width=64, height=64, numFrames=16 } )
+
+local delay = 0
+
 
 -- play 15 frames every 500 ms
 local ninjasequence = {
@@ -33,6 +35,11 @@ function updatePlayer()
 		player.y = player.y - 5
 		--change value for jump height
 		if player.y < player.jumpFrom - 100 then
+			player.state = 'hovering'
+		end
+	elseif player.state == 'hovering' then
+		delay = delay + 1
+		if delay == 10 then
 			player.state = 'jumpingDown'
 		end
 	elseif player.state == 'jumpingDown' then
