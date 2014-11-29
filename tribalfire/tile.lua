@@ -44,7 +44,7 @@ function tileClass:tileUpdate()
 		self.t.x = self.t.x + 1
 		if self.t.x >= (screenWidth - 60) then
 			handCounter = handCounter +1
-			--self.state = 'static'
+			self.state = 'static'
 		end
 	end
 end
@@ -53,7 +53,7 @@ function tileClass:activate()
 	self.t = display.newImageRect(self.image,40,40)
 	self.t.x = self.x
 	self.t.y = self.y
-	--tiles:insert(self.t)
+	tiles:insert(self.t)
 end
 
 
