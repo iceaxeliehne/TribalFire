@@ -16,11 +16,17 @@ local character = require('character')
 local tile = require('tile')
 --local platform = require('platform')
 
-tiles = display.newGroup()
+handCounter = 1
 
-local test = platformClass:new(level.tiles.tile1)
+tiles = {}
 
-test:activate()
+local tetrisHand = display.newRect(screenWidth/2,30,screenWidth+100,60)
+tetrisHand:setFillColor(0)
+
+
+--local test = platformClass:new(level.tiles.tile2)
+
+--test:activate()
 
 local function update(event)
 	updateBackgrounds()
@@ -29,13 +35,23 @@ local function update(event)
 	updateTiles()
 end
 
-local tetrisHand = display.newRect(screenWidth/2,30,screenWidth+100,60)
-tetrisHand:setFillColor(0)
 
 function updateTiles()
-	test:tileUpdate()
+	for k,v in ipairs(tiles) do
+		v:tileUpdate()
+
+	end
 end
 
 
 
 Runtime:addEventListener( "enterFrame", update )
+
+function generateTiles(event)
+	local n = math.random(2)
+	local t = platformClass:new(level.tiles.tile2)
+	t:activate()
+	tiles[#tiles + 1] = t
+end
+
+timer.performWithDelay(1000,generateTiles,6)
