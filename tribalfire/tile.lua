@@ -33,7 +33,7 @@ end]]--
 function tileClass:tileUpdate()
 	if self.state == 'scrolling' then
 		self.t.x = self.t.x - 1
-		if self.t.x <= 164 and self.collisionState == 0 then
+		if self.t.x <= 150 and self.collisionState == 0 then
 			self.collisionState = 1
 			self:collisionHandler()
 		end
@@ -41,7 +41,7 @@ function tileClass:tileUpdate()
 end
 
 function tileClass:activate()
-	self.t = display.newImage(self.image)
+	self.t = display.newImageRect(self.image,40,40)
 	self.t.x = self.x
 	self.t.y = self.y
 	--tiles:insert(self.t)
@@ -67,6 +67,7 @@ platformClass = tileClass:new({})
 
 
 function platformClass:collisionHandler()
+	--print('test')
 	playerJump()
 end
 

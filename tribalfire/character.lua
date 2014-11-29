@@ -42,4 +42,4 @@ function playerJump()
 	player.state = 'jumpUp'
 end
 
-timer.performWithDelay( 1000, playerJump, 1 )
+--timer.performWithDelay( 1000, playerJump, 1 )
