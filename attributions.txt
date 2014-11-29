@@ -1,0 +1,8 @@
+Tileset:
+
+http://opengameart.org/content/platform-tileset-nature
+
+Ninja:
+
+http://opengameart.org/content/platformer-or-fighter-sprites
+
