@@ -25,7 +25,6 @@ tetrisHand:setFillColor(0)
 
 
 --local test = platformClass:new(level.tiles.tile2)
-
 --test:activate()
 
 local function update(event)
@@ -43,8 +42,6 @@ function updateTiles()
 	end
 end
 
-
-
 Runtime:addEventListener( "enterFrame", update )
 
 function generateTiles(event)
@@ -55,3 +52,12 @@ function generateTiles(event)
 end
 
 timer.performWithDelay(1000,generateTiles,6)
+
+-- start audio
+local backgroundMusic = audio.loadStream("sounds/escapeloop.mp3")
+local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }) 
+
+-- audio.stop( backgroundMusicChannel )                                                                                                             fadein   =5000 })
+
+
+
