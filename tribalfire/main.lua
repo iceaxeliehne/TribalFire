@@ -16,9 +16,13 @@ local screenWidth = display.viewableContentWidth
 
 display.setStatusBar(display.HiddenStatusBar)
 
+local assets = require('assets')
 local backgrounds = require('backgrounds')
 local character = require('character')
+local tile = require('tile')
+--local platform = require('platform')
 
+local tiles = display.newGroup()
 
 local function update(event)
 	updateBackgrounds()
@@ -26,5 +30,8 @@ local function update(event)
 	updatePlayer()
 	--speed = speed + .05
 end
+
+local test = platformClass:new(level.tiles.tile1)
+test:activate()
 
 Runtime:addEventListener( "enterFrame", update )

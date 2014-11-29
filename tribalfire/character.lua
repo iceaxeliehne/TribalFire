@@ -1,7 +1,7 @@
 
 local screenHeight = display.viewableContentHeight
 local ground = screenHeight - 50
-
+local delay = 0
 
 local player = display.newImage("images/ninja/n3.png")
 player.x = 100
@@ -20,6 +20,11 @@ function updatePlayer()
 		player.y = player.y - 5
 		--change value for jump height
 		if player.y < player.jumpFrom - 100 then
+			player.state = 'hovering'
+		end
+	elseif player.state == 'hovering' then
+		delay = delay + 1
+		if delay == 10 then
 			player.state = 'jumpingDown'
 		end
 	elseif player.state == 'jumpingDown' then
