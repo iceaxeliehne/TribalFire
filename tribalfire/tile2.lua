@@ -1,7 +1,7 @@
 
 local screenHeight = display.viewableContentHeight
 local screenWidth = display.viewableContentWidth
-
+local ground = screenHeight - 50
 
 function displayObjectInit(params)
 	local t = display.newImageRect(params.image,40,40)
@@ -55,7 +55,9 @@ function tileTouch(event)
 end
 
 function collisionHandler(t)
-	playerJump()
+	if player.y == ground then
+		playerJump()
+	end
 end
 
 function updateTetris()
