@@ -6,3 +6,8 @@ Ninja:
 
 http://opengameart.org/content/platformer-or-fighter-sprites
 
+Tutorials:
+
+Ultimate Config: http://stackoverflow.com/questions/19153695/background-image-size-for-all-device-in-corona/19156811#19156811
+
+Using a sprite sheet: 
