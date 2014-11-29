@@ -1,15 +1,17 @@
 
 local tileClass = {}
-tileClass.__index = className
+tileClass.__index = tileClass
  -- table titled with class name holds the functions of the class
  -- table titled _mt provides instances of class with 
  -- meta table classname. ie it tells the instance to look
  -- for functions in the className table
 
- function className:new(property1,property2)
+ function tileClass:new(params)
  	local newInstance = {
- 		property = property1
- 		info = property2
+ 		image = params.image
+ 		x = params.x
+ 		y = params.y
+ 		state = 'scrolling'
  	}
  	return setmetatable( newInstance, self )
  end
@@ -31,10 +33,18 @@ end
 
 -- public functions
 
-function className:functionTitle()
-	print("put stuff here")
+function tileClass:update()
+	if self.state = 'scrolling' then
+		self.x = self.x - speed
+		-- change to values
+		if self.x <= player.x + imagewidth 
+	end
 end
 
---[[ stores function in className table 
-allowing instances to share it
-]]--
+function tileClass:testCollide()
+
+	local right = player.contentBounds.xMin <= self.contentBounds.xMin and player.contentBounds.xMax >= self.contentBounds.xMin
+    local left = player.contentBounds.xMin >= self.contentBounds.xMin and player.contentBounds.xMin <= self.contentBounds.xMax
+    local up = player.contentBounds.yMin <= self.contentBounds.yMin and player.contentBounds.yMax >= self.contentBounds.yMin
+    local down = player.contentBounds.yMin >= self.contentBounds.yMin and player.contentBounds.yMin <= self.contentBounds.yMax
+    return (left or right) and (up or down)

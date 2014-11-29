@@ -58,11 +58,11 @@ for a = 1, 8, 1 do
 end
 
 
-local function update(event)
+--[[local function update(event)
 	updateBackgrounds()
 	updateBlocks()
 	--speed = speed + .05
-end
+end]]--
 
 function updateBlocks()
 	for a =1, blocks.numChildren, 1 do
