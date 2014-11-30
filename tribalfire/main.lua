@@ -3,6 +3,7 @@
 -- main.lua
 --
 -----------------------------------------------------------------------------------------
+gameStatus = "Running"
 
 -- Your code here
 local screenHeight = display.viewableContentHeight
@@ -15,6 +16,12 @@ local assets = require('assets')
 local backgrounds = require('backgrounds')
 local character = require('character')
 local tile = require('tile2')
+local gameover = require('gameover')
+local button = require('button')
+
+
+setUpAndArmGameOverButton()
+
 --local platform = require('platform')
 
 delayCount = 0
@@ -32,16 +39,17 @@ tiles = display.newGroup()
 --test:activate()
 
 local function update(event)
-  updateBackgrounds()
-  updateBlocks()
-  updatePlayer()
-  updateTiles()
-  if tooManyTiles == 0 then
-    tileDelay()
-  else
-    gameOver()
-  end 
-
+  if (gameStatus == "Running") then
+    updateBackgrounds()
+    updateBlocks()
+    updatePlayer()
+    updateTiles()
+    if tooManyTiles == 0 then
+      tileDelay()
+    else
+      gameOver()
+    end 
+  end
 end
 
 Runtime:addEventListener( "enterFrame", update )
@@ -64,8 +72,11 @@ end
 --timer.performWithDelay(5000,generateTiles,6)
 
 -- start audio
-local backgroundMusic = audio.loadStream("sounds/escapeloop.mp3")
-local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }) 
+backgroundMusic = audio.loadStream("sounds/escapeloop.mp3")
+gameoverSong = audio.loadStream("sounds/gameover-low.mp3")
+playerYell = audio.loadStream("sounds/yell.mp3")
+
+backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }) 
 
 -- audio.stop( backgroundMusicChannel )                                                                                                             fadein   =5000 })
 
