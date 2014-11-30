@@ -1,5 +1,5 @@
 local screenHeight = display.viewableContentHeight
-local ground = screenHeight - 50
+ground = screenHeight - 50
 
 -- A sprite sheet with a green dude
 local ninjasheet = graphics.newImageSheet( "images/ninja/complete.png", { width=64, height=64, numFrames=16 } )
@@ -12,7 +12,7 @@ local ninjasequence = {
   { name="running", start=1, count=6, time=500 },
   { name="jumping", frames={ 9 }}
 }
-local player = display.newSprite( ninjasheet, ninjasequence )
+player = display.newSprite( ninjasheet, ninjasequence )
 
 -- local player = display.newImage("images/ninja/n3.png")
 player.x = 100

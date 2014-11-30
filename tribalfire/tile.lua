@@ -41,16 +41,11 @@ function tileClass:tileUpdate()
 			self:collisionHandler()
 		end
 	elseif self.state == 'slider' then
-<<<<<<< HEAD
-		self.t.x = self.t.x + 0.2
-		--if self.t.x >= (screenWidth - (handCounter * ))
-=======
 		self.t.x = self.t.x + 1
 		if self.t.x >= (screenWidth - 60) then
 			handCounter = handCounter +1
 			self.state = 'static'
 		end
->>>>>>> 04b49262be16a89619d95dc3f42aa3ca89f98e41
 	end
 end
 
