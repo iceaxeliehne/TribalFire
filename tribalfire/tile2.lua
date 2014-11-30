@@ -37,7 +37,7 @@ function updateTiles()
 			end
 		end
 		if tiles[i].testForCollision == 1 then
-		collisionTest(tiles[i])
+			collisionTest(tiles[i])
 		end
 	end
 end

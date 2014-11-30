@@ -29,9 +29,13 @@ preCollisions = {}
 -- pre-collision function for tile 1
 preCollisions[1] =  function (t)
 	if player.y == ground then
-		if t.y <= (ground+ 20) and t.y >= (ground-20) then
+		if t.y <= (ground+ 64) and t.y >= (ground-20) then
 			playerJump()
+		else
+			t.testForCollision = 1
 		end
+	else
+		t.testForCollision = 1
 	end
 end
 
