@@ -1,16 +1,19 @@
 
 local screenHeight = display.viewableContentHeight
 local screenWidth = display.viewableContentWidth
-local ground = screenHeight - 50
+
 
 function displayObjectInit(params)
 	local t = display.newImageRect(params.image,40,40)
 	t.x = params.x
 	t.y = params.y
 	t.state = params.state
-	t.touchState = 0
+	t.collisionIndex = params.collisionIndex
+	--change to 0 to disable touch
+	t.touchState = 1
 	t:addEventListener( "touch", tileTouch )
 	t.collisionState = 0
+	t.testForCollision = 0
 	tiles:insert(t)
 end
 
@@ -32,6 +35,9 @@ function updateTiles()
 				tiles[i].collisionState = 1
 				collisionHandler(tiles[i])
 			end
+		end
+		if tiles[i].testForCollision == 1 then
+			collisionTest(tiles[i])
 		end
 	end
 end
@@ -55,9 +61,7 @@ function tileTouch(event)
 end
 
 function collisionHandler(t)
-	if player.y == ground then
-		playerJump()
-	end
+	preCollision(t)
 end
 
 function updateTetris()

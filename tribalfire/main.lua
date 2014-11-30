@@ -55,7 +55,7 @@ end
 
 function tileDelay()
   delayCount = delayCount + 1
-  if delayCount == 100 then
+  if delayCount == 200 then
     displayObjectInit(level.tiles.tile2)
     delayCount = 0
   end
