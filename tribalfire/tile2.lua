@@ -26,7 +26,7 @@ function updateTiles()
 				tiles[i].state = 'static'
 				tiles[i].touchState = 1
 				if tilesInHand == 15 then
-					tooManyTiles = 1
+					--tooManyTiles = 1
 				end
 			end
 		elseif tiles[i].state =='scrolling' then
