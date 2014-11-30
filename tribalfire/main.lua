@@ -16,6 +16,11 @@ local backgrounds = require('backgrounds')
 local character = require('character')
 local tile = require('tile2')
 local gameover = require('gameover')
+local button = require('button')
+
+
+setUpAndArmGameOverButton()
+
 --local platform = require('platform')
 
 delayCount = 0
