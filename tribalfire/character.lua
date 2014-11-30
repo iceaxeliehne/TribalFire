@@ -46,7 +46,7 @@ function updatePlayer()
 		end
 	elseif player.state == 'jumpingDown' then
 		-- change value for falling speed
-		player.y = player.y + 5
+		player.y = player.y + 3
 		if player.y >= ground then
 			player.y = ground
 			player.state = 'walking'
