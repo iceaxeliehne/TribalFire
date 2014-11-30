@@ -3,6 +3,7 @@
 -- main.lua
 --
 -----------------------------------------------------------------------------------------
+gameStatus = "Running"
 
 -- Your code here
 local screenHeight = display.viewableContentHeight
@@ -33,16 +34,17 @@ tiles = display.newGroup()
 --test:activate()
 
 local function update(event)
-  updateBackgrounds()
-  updateBlocks()
-  updatePlayer()
-  updateTiles()
-  if tooManyTiles == 0 then
-    tileDelay()
-  else
-    gameOver()
-  end 
-
+  if (gameStatus == "Running") then
+    updateBackgrounds()
+    updateBlocks()
+    updatePlayer()
+    updateTiles()
+    if tooManyTiles == 0 then
+      tileDelay()
+    else
+      gameOver()
+    end 
+  end
 end
 
 Runtime:addEventListener( "enterFrame", update )
