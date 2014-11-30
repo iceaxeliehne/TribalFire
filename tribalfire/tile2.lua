@@ -40,6 +40,15 @@ function updateTiles()
 			collisionTest(tiles[i])
 		end
 	end
+	if groundTile then
+		--print("test ground tile")
+		--print(groundTile.x)
+		if groundTile.x <= 48 then
+			ground = screenHeight - 50
+			player.state = 'jumpingDown'
+			groundTile = false
+		end
+	end
 end
 
 
