@@ -9,11 +9,8 @@ function setUpAndArmGameOverButton()
 	-- Function to handle button events
 	local function handleButtonEvent( event )
 	    if ( "ended" == event.phase ) then
-	        print( "Button was pressed and released" )
-	          if (gameStatus == "Running") then
-			        --gameOver()
-			  end
 			  gameStatus = "Resetting"
+        print( gameStatus )
 	    end
 	end
 

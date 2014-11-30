@@ -52,10 +52,12 @@ local function update(event)
   else if (gameStatus == "Resetting") then
       if (not audio.isChannelPlaying( theGameoverSongChannel )) then
          display.remove(gameoverpic)
-         backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }) 
+         audio.rewind(backgroundMusic)
+         audio.play( backgroundMusic, { channel=backgroundMusicChannel, loops=-1, fadein=5000 }) 
          display.remove(tiles)
          tiles = display.newGroup()
-         tilesInHand = 0
+         tilesInHand = 1
+         tooManyTiles = 0
          gameStatus = "Running"
       end
   end
@@ -87,9 +89,11 @@ end
 backgroundMusic = audio.loadStream("sounds/escapeloop.mp3")
 gameoverSong = audio.loadStream("sounds/gameover-low.mp3")
 playerYell = audio.loadStream("sounds/yell.mp3")
+backgroundMusicChannel = 1
+theGameoverSongChannel = 2
 
-backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }) 
-theGameoverSongChannel = 0
+audio.play( backgroundMusic, { channel=backgroundMusicChannel, loops=-1, fadein=5000 }) 
+
 
 -- audio.stop( backgroundMusicChannel )                                                                                                             fadein   =5000 })
 
