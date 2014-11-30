@@ -17,7 +17,7 @@ local backgrounds = require('backgrounds')
 local character = require('character')
 local tile = require('tile2')
 local gameover = require('gameover')
-local button = require('button')
+local button = require('restart')
 
 
 setUpAndArmGameOverButton()
@@ -49,7 +49,19 @@ local function update(event)
     else
       gameOver()
     end 
+  else if (gameStatus == "Resetting") then
+      if (not audio.isChannelPlaying( theGameoverSongChannel )) then
+         display.remove(gameoverpic)
+         backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }) 
+         display.remove(tiles)
+         tiles = display.newGroup()
+         tilesInHand = 0
+         gameStatus = "Running"
+      end
   end
+end
+
+
 end
 
 Runtime:addEventListener( "enterFrame", update )
@@ -77,6 +89,7 @@ gameoverSong = audio.loadStream("sounds/gameover-low.mp3")
 playerYell = audio.loadStream("sounds/yell.mp3")
 
 backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }) 
+theGameoverSongChannel = 0
 
 -- audio.stop( backgroundMusicChannel )                                                                                                             fadein   =5000 })
 

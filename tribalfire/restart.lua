@@ -4,12 +4,16 @@ function setUpAndArmGameOverButton()
 
 	local widget = require( "widget" )
 
+
+
 	-- Function to handle button events
 	local function handleButtonEvent( event )
-
 	    if ( "ended" == event.phase ) then
 	        print( "Button was pressed and released" )
-	        gameOver()
+	          if (gameStatus == "Running") then
+			        --gameOver()
+			  end
+			  gameStatus = "Resetting"
 	    end
 	end
 
