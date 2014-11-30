@@ -15,6 +15,7 @@ local assets = require('assets')
 local backgrounds = require('backgrounds')
 local character = require('character')
 local tile = require('tile2')
+local gameover = require('gameover')
 --local platform = require('platform')
 
 delayCount = 0
@@ -64,8 +65,11 @@ end
 --timer.performWithDelay(5000,generateTiles,6)
 
 -- start audio
-local backgroundMusic = audio.loadStream("sounds/escapeloop.mp3")
-local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }) 
+backgroundMusic = audio.loadStream("sounds/escapeloop.mp3")
+gameoverSong = audio.loadStream("sounds/gameover-low.mp3")
+playerYell = audio.loadStream("sounds/yell.mp3")
+
+backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=5000 }) 
 
 -- audio.stop( backgroundMusicChannel )                                                                                                             fadein   =5000 })
 
