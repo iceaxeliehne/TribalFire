@@ -28,9 +28,14 @@ preCollisions = {}
 
 -- pre-collision function for tile 1
 preCollisions[1] =  function (t)
+	print('pre-collision')
+	print(player.y)
+	print(ground)
+	print('t.y = '..t.y)
 	if player.y == ground then
-		if t.y <= (player.y+ 64) and t.y >= (player.y-40) then
-			playerJump()
+		if t.y <= (player.y+ 100) and t.y >= (player.y-50) then
+			print('test second jump')
+			player.state = 'jumpUp'
 			if t.y <= screenHeight - 100 then
 				t.testForCollision = 1
 			end
@@ -43,7 +48,7 @@ preCollisions[1] =  function (t)
 end
 
 function preCollision(t)
-	
+	--t.testForCollision = 1
 	print('test pre collision')
 	print(t.collisionIndex)
 	--local index = t.collisionIndex
@@ -55,27 +60,32 @@ end
 -- collision function for tile 1
 collisions[1] = function (t,upOrDown)
 	local above = player.y >= t.y and player.x >= (t.x - 40) and player.x <= (t.x + 40)
-	local side = t.x <= 132 and player.y >= (t.y - 40) and player.y <= (t.y + 40)
+	local side = t.x <= 132 and player.y >= (t.y - 20) and player.y <= (t.y + 20)
 	local below = player.y <= t.y and player.x >= (t.x - 40) and player.x <= (t.x + 40)
 	if side then
-		if above then
+		if player.y < t.y then
 			if (t.y - player.y) >= compareValues(t.x,player.x) then
 				ground = t.y - 52
+				print('set ground to '..ground)
 				groundTile = t
 			else
+				print('side from above')
 				gameOver()
 			end
-		elseif below then
+		elseif t.y < player.y  then
 			if (player.y - t.y) >= compareValues(t.x,player.x) then
 				player.state = 'jumpingDown'
 			else
+				print('side from below')
 				gameOver()
 			end
 		else
+			print('side')
 			gameOver()
 		end
 	elseif above then
 		ground = t.y - 52
+		print('set ground to '..ground)
 		groundTile = t	
 	elseif below then
 		player.state = 'jumpingDown'
