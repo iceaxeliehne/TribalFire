@@ -8,11 +8,11 @@ function displayObjectInit(params)
 	t.x = -25
 	t.y = 35
 	-- state can be 'slider','static', 'scrolling', 'falling'
-	t.state = params.state
+	t.state = 'slider'
 	-- collision index sends to unique functions for tile collisions
 	t.collisionIndex = params.collisionIndex
 	--change to 0 to disable touch
-	t.touchState = 1
+	t.touchState = 0
 	t:addEventListener( "touch", tileTouch )
 	-- pre collision state checks wether the character has reacted to the approaching tile
 	t.preCollisionState = 0
@@ -24,21 +24,28 @@ function displayObjectInit(params)
 end
 
 function updateTiles()
+	--print(tiles.numChildren)
 	for i=1,tiles.numChildren,1 do
 		if tiles[i].state == 'slider' then
 			tiles[i].x = tiles[i].x + 1
-			if tiles[i].x >= ((screenWidth + 60) - (tilesInHand * 43)) then
+			if tiles[i].x >= ((screenWidth - 74) - (tilesInHand * 43)) then
 				tilesInHand = tilesInHand + 1
 				tiles[i].state = 'static'
-				tiles[i].touchState = 1
-				if tilesInHand == 15 then
+				if tilesInHand == 2 then
+					tiles[i].touchState = 1
+				elseif tilesInHand == 12 then
 					tooManyTiles = 1
 				end
 			end
 		elseif tiles[i].state =='scrolling' then
 			tiles[i].x = tiles[i].x -1
-			if tiles[i].x <= 155 and tiles[i].collisionState == 0 then
-				tiles[i].preCollisionState = 1
+			if tiles[i].x <= - 200 then
+				--print('tile remove test')
+				tiles:remove(i)
+				return
+			elseif tiles[i].x <= 155 and tiles[i].collisionState == 0 then
+				tiles[i].collisionState = 1
+				--tiles[i].preCollisionState = 1
 				tiles[i].testForCollision = 1
 				preCollisions[tiles[i].collisionIndex](tiles[i])
 			end
@@ -57,6 +64,7 @@ function updateTiles()
 		--print("test ground tile")
 		--print(groundTile.x)
 		if groundTile.x <= 48 then
+			--print('ground tile test')
 			ground = screenHeight - 50
 			player.state = 'jumpingDown'
 			groundTile = false
@@ -67,10 +75,11 @@ end
 
 function tileTouch(event)
 	if event.target.touchState == 1 then
-		print('touch state = 1')
+		--print('touch state = 1')
 		if event.phase == "began" then
-			print('hit')
+			--print('hit')
 		elseif event.phase == "moved" then
+			testTileSave(event.target,event)
 			if event.x <= 200 then
 				event.target.x = 200
 			else
@@ -83,6 +92,7 @@ function tileTouch(event)
 			end
 		elseif event.phase == "ended" then
 			event.target.touchState = 0
+			resetSlotColor()
 			if event.target.y <= ground then
 				event.target.state = "falling"
 			else
@@ -96,10 +106,10 @@ end
 
 
 function updateTetris()
+	tilesInHand = 1
 	for i=1, tiles.numChildren, 1 do
 		if tiles[i].state == 'static' then
 			tiles[i].state = 'slider'
-			tilesInHand = 1
 		end
 	end
 end
@@ -108,17 +118,46 @@ function collisionTest(t)
 	if t.x <= 48 then
 		t.testForCollision = 0
 		return
+	elseif t.orientation then 
+		if t.orientation == 'above' then
+			if t.contentBounds.yMin <= player.contentBounds.yMax then
+				aboveCollision[t.collisionIndex](t)
+			end
+		elseif t.orientation == 'below' then
+			if t.contentBounds.yMax <= player.contentBounds.yMin then
+				belowCollision[t.collisionIndex](t)
+			end
+		end
 	elseif t.contentBounds.xMin <= player.contentBounds.xMax then
-		if t.contentBounds.yMin > player.contentBounds.yMax then
+		if t.contentBounds.yMin >= player.contentBounds.yMax then
 			--player is above tile
-			aboveCollision[t.collisionState](t)
-		elseif t.contentBounds.yMax < player.contentBounds.yMin then
+			t.orientation = 'above'
+			--aboveCollision[t.collisionState](t)
+		elseif t.contentBounds.yMax <= player.contentBounds.yMin then
+			--print('below collision call test')
 			--player is below tile
+			t.orientation = 'below'
 			--belowCollision[t.collisionState](t)
-		else
+		elseif t.contentBounds.xMin <= (player.contentBounds.xMax - 50) then
 			-- player is colliding from the side
+			--print('side collision call test')
 			t.collisionState = 1
 			collisions[t.collisionIndex](t)
+		end
+	end
+end
+
+function testTileSave(t,event)
+	if event.y <= 51 then
+		if event.x >= screenWidth-93 then
+			print('greenlight')
+			if event.x <= screenWidth-50 then
+				compatabilityTest(3,t)
+			elseif event.x <= screenWidth-7 then
+				compatabilityTest(2,t)
+			else
+				compatabilityTest(1,t)
+			end
 		end
 	end
 end

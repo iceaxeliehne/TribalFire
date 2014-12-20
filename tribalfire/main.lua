@@ -29,8 +29,7 @@ delayCount = 0
 tilesInHand = 1
 tooManyTiles = 0
 
-local tetrisHand = display.newRect(screenWidth/2,30,screenWidth+100,60)
-tetrisHand:setFillColor(0)
+
 
 tiles = display.newGroup()
 

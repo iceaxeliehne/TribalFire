@@ -61,7 +61,23 @@ for a = 1, 20, 1 do
 	newBlock.y = groundLevel
 	blocks:insert(newBlock)
 end
-
+ -- tetris hand setup
+local tetrisHand = display.newRect(screenWidth/2,30,screenWidth+100,60)
+tetrisHand:setFillColor(0)
+-- save slots
+slots = {}
+slots[1] = display.newRect(screenWidth+16,35,43,43)
+slots[1]:setFillColor(0)
+slots[1].strokeWidth = 3
+slots[1]:setStrokeColor(1,1,1)
+slots[2] = display.newRect(screenWidth-27,35,43,43)
+slots[2]:setFillColor(0)
+slots[2].strokeWidth = 3
+slots[2]:setStrokeColor(1,1,1)
+slots[3] = display.newRect(screenWidth-70,35,43,43)
+slots[3]:setFillColor(0)
+slots[3].strokeWidth = 3
+slots[3]:setStrokeColor(1,1,1)
 
 --[[local function update(event)
 	updateBackgrounds()
@@ -121,4 +137,8 @@ function updateBackgrounds()
 	end
 end
 
-timer.performWithDelay(1,update,-1)
+function resetSlotColor()
+	for i = 1,3 ,1 do
+		slots[i]:setStrokeColor(1,1,1)
+	end
+end

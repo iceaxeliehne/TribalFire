@@ -23,6 +23,7 @@ player.jumpFrom = 0
 player:play()
 
 function updatePlayer()
+	--print(player.state)
 	if player.state == 'walking' then
 		return
 	elseif player.state == 'jumpUp' then
@@ -30,7 +31,7 @@ function updatePlayer()
 		player.state = 'jumpingUp'
     	player:setSequence("jumping")
 	  	player:play()
-	  	audio.play(playerYell, {channel = 2, loops=0})
+	  	--audio.play(playerYell, {channel = 2, loops=0})
 	elseif player.state == 'jumpingUp' then
 		--change value for jumping speed
 		player.y = player.y - 5
@@ -39,20 +40,23 @@ function updatePlayer()
 			player.state = 'hovering'
 		end
 	elseif player.state == 'hovering' then
+		--print("hovering test")
 		delay = delay + 1
+		--change value for hover time
 		if delay == 60 then
+			--print('delay test')
 			player.state = 'jumpingDown'
 			delay = 0
 		end
 	elseif player.state == 'jumpingDown' then
+		--print(ground)
 		-- change value for falling speed
 		player.y = player.y + 3
 		if player.y >= ground then
 			player.y = ground
 			player.state = 'walking'
-      player:setSequence("running")
-      player:play()
-			
+      		player:setSequence("running")
+      		player:play()
 		end
 	--add player states here
 	end
