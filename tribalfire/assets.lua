@@ -4,66 +4,63 @@ local screenHeight = display.viewableContentHeight
 
 level ={
 	tiles = {
-		tile1 = {
+		--[[
+		tileExample = {
+			image = 'images/tilesets/tileExample.png',
+			tIndex = tile number,
+			preCollision = function(t) 
+				if t.preCollisionState == 0 then
+					t.preCollisionState = 1
+				end
+				put stuff here
+			end,
+			sideCollsion = function(t) 
+				put stuff here
+			end,
+			aboveCollision = function(t) 
+				put stuff here
+			end,
+			belowCollision = function(t) 
+				put stuff here
+			end
+		}
+		]]--
+		{
 			-- tile 1 ground 
 			image = 'images/tilesets/PlatformTiles_brownNature_ByEris_0_64/tile_00.png',
-			x = 500,
-			y = ground,
-			state = 'slider',
-			collisionState = 0
-		},
-		tile2 = {
-			-- tile 2 ground (clone of tile 1)
-			image = 'images/tilesets/PlatformTiles_brownNature_ByEris_0_64/tile_00.png',
-			x = -25,
-			y = 35,
-			state = 'slider',
-			collisionState = 0,
-			collisionIndex = 1
+			tIndex = 1,
+			preCollision = function(t) 
+				if t.preCollisionState == 0 then
+					t.preCollisionState = 1
+					if player.y == ground then
+						player.state = 'jumpUp'
+					end
+				end
+				
+			end,
+			sideCollision = function(t) 
+				print('side collision test')
+			end,
+			aboveCollision = function(t) 
+				print('above collision test')
+			end,
+			belowCollision = function(t) 
+				print('below collision test')
+			end
 		}
 	}
 }
 
 --holds data on what tile is currently in save slots
 slotTiles = {}
---holds info on which tiles can be joined in the save slots 
+--holds info on which tiles can be crafted in the save slots 
 compatability = {}
--- holds functions that allow character to anticipate actions before colliding with the object. indexed by tile collision index
-preCollisions = {}
--- holds function for side on collisions with tile
-collisions = {}
--- holds functions called when the character is above the tile
-aboveCollision = {}
--- holds functions called when character is below the tile
-belowCollision ={}
+--[[each element in compatability is an array of recepies for when two tiles combine.
+compatability[1] = {} each element of the array indexed at 1 holds finctions for when the tile of index 1 is dragged onto 
+another tile. eg. dragging 1 onto 5 is deturmined by running compatability[1][5] while dragging 5 onto 1 is
+compatability[5][1]. each element will hold either nil for when the two tiles cannot combine or the tIndex of the tile produced
+]]--
 
--- pre-collision function for tile 1
-preCollisions[1] =  function (t)
-	--print('pre collision call test')
-	if t.preCollisionState == 0 then
-		t.preCollisionState = 1
-		if player.y == ground then
-			player.state = 'jumpUp'
-		end
-	end
-end
+compatability[1] = {0}
 
--- collision function for tile 1
-collisions[1] = function (t)
-	print("collision call test")
-	--gameOver()
-end
 
-aboveCollision[1] = function (t)
-
-	--ground = ground - 40
-	--groundTile = t
-end
-
-function compatabilityTest(slot,t)
-	if slotTiles[slot] == 1 and compatibility[slotTiles[slot]][t.collisionIndex] == 0 then
-		slots[slot]:setStrokeColor(1,0,0)
-	else 
-		slots[slot]:setStrokeColor(0,1,0)
-	end
-end

@@ -10,7 +10,7 @@ function displayObjectInit(params)
 	-- state can be 'slider','static', 'scrolling', 'falling'
 	t.state = 'slider'
 	-- collision index sends to unique functions for tile collisions
-	t.collisionIndex = params.collisionIndex
+	t.tIndex = params.tIndex
 	--change to 0 to disable touch
 	t.touchState = 0
 	t:addEventListener( "touch", tileTouch )
@@ -47,7 +47,7 @@ function updateTiles()
 				tiles[i].collisionState = 1
 				--tiles[i].preCollisionState = 1
 				tiles[i].testForCollision = 1
-				preCollisions[tiles[i].collisionIndex](tiles[i])
+				tTable[tiles[i].tIndex].preCollision(tiles[i])
 			end
 		elseif tiles[i].state == 'falling' then
 			tiles[i].y = tiles[i].y +3
@@ -77,8 +77,15 @@ function tileTouch(event)
 	if event.target.touchState == 1 then
 		--print('touch state = 1')
 		if event.phase == "began" then
+			print('began touch')
+			if event.target.state == 'saved' then
+				tileUnsave(event.target,event)
+			end
 			--print('hit')
 		elseif event.phase == "moved" then
+			if event.target.state == 'saved' then
+				return
+			end
 			testTileSave(event.target,event)
 			if event.x <= 200 then
 				event.target.x = 200
@@ -91,11 +98,14 @@ function tileTouch(event)
 				event.target.y = event.y
 			end
 		elseif event.phase == "ended" then
-			event.target.touchState = 0
+			if event.target.state ~= 'saved' then
+				event.target.touchState = 0
+			end
 			resetSlotColor()
-			if event.target.y <= ground then
+			tileSave(event.target,event)
+			if event.target.state ~= 'saved' and event.target.y <= ground then
 				event.target.state = "falling"
-			else
+			elseif event.target.state ~= 'saved' then
 				event.target.state = 'scrolling'
 			end
 			--tilesInHand = tilesInHand - 1
@@ -121,11 +131,11 @@ function collisionTest(t)
 	elseif t.orientation then 
 		if t.orientation == 'above' then
 			if t.contentBounds.yMin <= player.contentBounds.yMax then
-				aboveCollision[t.collisionIndex](t)
+				tTable[t.tIndex].aboveCollision(t)
 			end
 		elseif t.orientation == 'below' then
 			if t.contentBounds.yMax <= player.contentBounds.yMin then
-				belowCollision[t.collisionIndex](t)
+				tTable[t.tIndex].belowCollision(t)
 			end
 		end
 	elseif t.contentBounds.xMin <= player.contentBounds.xMax then
@@ -142,7 +152,7 @@ function collisionTest(t)
 			-- player is colliding from the side
 			--print('side collision call test')
 			t.collisionState = 1
-			collisions[t.collisionIndex](t)
+			tTable[t.tIndex].sideCollision(t)
 		end
 	end
 end
@@ -150,14 +160,86 @@ end
 function testTileSave(t,event)
 	if event.y <= 51 then
 		if event.x >= screenWidth-93 then
-			print('greenlight')
+			--print('greenlight')
 			if event.x <= screenWidth-50 then
-				compatabilityTest(3,t)
+				--print(compatabilityTest(3,t))
+				if compatabilityTest(3,t) then
+					slots[3]:setStrokeColor(0,1,0)
+				else
+					slots[3]:setStrokeColor(1,0,0)
+				end
 			elseif event.x <= screenWidth-7 then
-				compatabilityTest(2,t)
+				if compatabilityTest(2,t) then
+					slots[2]:setStrokeColor(0,1,0)
+				else
+					slots[2]:setStrokeColor(1,0,0)
+				end
 			else
-				compatabilityTest(1,t)
+				if compatabilityTest(1,t) then
+					slots[1]:setStrokeColor(0,1,0)
+				else
+					slots[1]:setStrokeColor(1,0,0)
+				end
 			end
 		end
+	end
+end
+
+function tileSave(t,event)
+	if event.y <= 51 then
+		if event.x >= screenWidth-93 then
+			if event.x <= screenWidth-50 then
+				if compatabilityTest(3,t) then
+					t.touchState = 1
+					t.state = 'saved'
+					t.x = screenWidth-70
+					t.y = 35
+					slotTiles[3] = 1
+					print('slot 3 save')
+				end
+			elseif event.x <= screenWidth-7 then
+				if compatabilityTest(2,t) then
+					t.touchState = 1
+					t.state = 'saved'
+					t.x = screenWidth-27
+					t.y = 35
+					slotTiles[2] = 1
+				end
+			else
+				if compatabilityTest(1,t) then
+					t.touchState = 1
+					t.state = 'saved'
+					t.x = screenWidth+16
+					t.y = 35
+					slotTiles[1] = 1
+				end
+			end
+		end
+	end
+end
+
+function tileUnsave(t,event)
+	if event.y <= 51 then
+		if event.x >= screenWidth-93 then
+			if event.x <= screenWidth-50 then
+				t.state = 'static'
+				slotTiles[3] = 0
+			elseif event.x <= screenWidth-7 then
+				t.state = 'static'
+				slotTiles[2] = 0
+			else
+				t.state = 'static'
+				slotTiles[1] = 0
+			end
+		end
+	end
+end
+
+-- NOTE! check this function this does not seem right!
+function compatabilityTest(slot,t)
+	if slotTiles[slot] == 1 and compatability[slotTiles[slot]][t.tIndex] == 0 then
+		return false
+	else 
+		return true
 	end
 end

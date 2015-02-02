@@ -4,9 +4,10 @@ ground = screenHeight - 50
 -- A sprite sheet with a green dude
 local ninjasheet = graphics.newImageSheet( "images/ninja/complete.png", { width=64, height=64, numFrames=16 } )
 
+-- delay used for hover time in jump
 local delay = 0
 
-
+-- include character action animations in this table
 -- play 15 frames every 500 ms
 local ninjasequence = {
   { name="running", start=1, count=6, time=500 },
@@ -22,6 +23,7 @@ player.jumpFrom = 0
 
 player:play()
 
+-- contains code for animating each state for the character
 function updatePlayer()
 	--print(player.state)
 	if player.state == 'walking' then
@@ -62,6 +64,7 @@ function updatePlayer()
 	end
 end
 
+-- NOTE! this function is redundant. just call player.state = 'jumpup' to jump
 function playerJump()
 	player.state = 'jumpUp'
 end

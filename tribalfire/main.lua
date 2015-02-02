@@ -22,21 +22,19 @@ local button = require('restart')
 
 setUpAndArmGameOverButton()
 
---local platform = require('platform')
-
+-- delay counter for tile gereation
 delayCount = 0
 --number of tiles in the hand
 tilesInHand = 1
+-- triggers game over state
 tooManyTiles = 0
 
-
-
+--address of tile table
+tTable = level.tiles
+-- group to hold on screen tiles
 tiles = display.newGroup()
 
---local test = platformClass:new(level.tiles.tile2)
-
---test:activate()
-
+-- update objects runs for each frame
 local function update(event)
   if (gameStatus == "Running") then
     updateBackgrounds()
@@ -57,32 +55,26 @@ local function update(event)
          tiles = display.newGroup()
          tilesInHand = 1
          tooManyTiles = 0
+         for i=1,3,1 do
+            slotTiles[i] = 0 
+         end
          gameStatus = "Running"
       end
+    end
   end
-end
-
-
 end
 
 Runtime:addEventListener( "enterFrame", update )
 
-function generateTiles()
-  --local n = math.random(2)
-  local t = platformClass:new(level.tiles.tile2)
-  t:activate()
-  
-end
-
+-- generates tile into the slider.
+-- NOTE! currently only triggers tile2. whith additional tiles this function will need to randomly choose wich tile to spawn
 function tileDelay()
   delayCount = delayCount + 1
   if delayCount == 200 then
-    displayObjectInit(level.tiles.tile2)
+    displayObjectInit(tTable[1])
     delayCount = 0
   end
 end
-
---timer.performWithDelay(5000,generateTiles,6)
 
 -- start audio
 backgroundMusic = audio.loadStream("sounds/escapeloop.mp3")
