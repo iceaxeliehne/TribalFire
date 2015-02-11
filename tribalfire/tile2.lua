@@ -1,3 +1,21 @@
+--[[    {TribalFire}
+    Copyright (C) {2015}  {Isaac Lynnah}
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+]]--
+
 
 local screenHeight = display.viewableContentHeight
 local screenWidth = display.viewableContentWidth
@@ -27,7 +45,7 @@ function updateTiles()
 	--print(tiles.numChildren)
 	for i=1,tiles.numChildren,1 do
 		if tiles[i].state == 'slider' then
-			tiles[i].x = tiles[i].x + 1
+			tiles[i].x = tiles[i].x + 3
 			if tiles[i].x >= ((screenWidth - 74) - (tilesInHand * 43)) then
 				tilesInHand = tilesInHand + 1
 				tiles[i].state = 'static'
@@ -163,19 +181,19 @@ function testTileSave(t,event)
 			--print('greenlight')
 			if event.x <= screenWidth-50 then
 				--print(compatabilityTest(3,t))
-				if compatabilityTest(3,t) then
+				if compatabilityTest(slotTiles[3],t) then
 					slots[3]:setStrokeColor(0,1,0)
 				else
 					slots[3]:setStrokeColor(1,0,0)
 				end
 			elseif event.x <= screenWidth-7 then
-				if compatabilityTest(2,t) then
+				if compatabilityTest(slotTiles[2],t) then
 					slots[2]:setStrokeColor(0,1,0)
 				else
 					slots[2]:setStrokeColor(1,0,0)
 				end
 			else
-				if compatabilityTest(1,t) then
+				if compatabilityTest(slotTiles[1],t) then
 					slots[1]:setStrokeColor(0,1,0)
 				else
 					slots[1]:setStrokeColor(1,0,0)
@@ -189,29 +207,29 @@ function tileSave(t,event)
 	if event.y <= 51 then
 		if event.x >= screenWidth-93 then
 			if event.x <= screenWidth-50 then
-				if compatabilityTest(3,t) then
+				if compatabilityTest(slotTiles[3],t) then
 					t.touchState = 1
 					t.state = 'saved'
 					t.x = screenWidth-70
 					t.y = 35
-					slotTiles[3] = 1
+					slotTiles[3] = t.tIndex
 					print('slot 3 save')
 				end
 			elseif event.x <= screenWidth-7 then
-				if compatabilityTest(2,t) then
+				if compatabilityTest(slotTiles[2],t) then
 					t.touchState = 1
 					t.state = 'saved'
 					t.x = screenWidth-27
 					t.y = 35
-					slotTiles[2] = 1
+					slotTiles[2] = t.tIndex
 				end
 			else
-				if compatabilityTest(1,t) then
+				if compatabilityTest(slotTiles[1],t) then
 					t.touchState = 1
 					t.state = 'saved'
 					t.x = screenWidth+16
 					t.y = 35
-					slotTiles[1] = 1
+					slotTiles[1] = t.tIndex
 				end
 			end
 		end
@@ -237,9 +255,9 @@ end
 
 -- NOTE! check this function this does not seem right!
 function compatabilityTest(slot,t)
-	if slotTiles[slot] == 1 and compatability[slotTiles[slot]][t.tIndex] == 0 then
-		return false
-	else 
+	if slotTiles[slot] == 0 or compatability[t.tIndex][slotTiles[slot]] ~= 0 then
 		return true
+	else 
+		return false
 	end
 end
