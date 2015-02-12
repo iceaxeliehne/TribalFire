@@ -48,6 +48,9 @@ delayCount = 0
 tilesInHand = 1
 -- triggers game over state
 tooManyTiles = 0
+tilesUpdate = 0
+-- table that holds tiles to be deleted at end of frame
+deleteTiles = {}
 
 --address of tile table
 tTable = level.tiles
@@ -60,7 +63,9 @@ local function update(event)
     updateBackgrounds()
     updateBlocks()
     updatePlayer()
+     
     updateTiles()
+    
     if tooManyTiles == 0 then
       tileDelay()
     else
@@ -87,11 +92,13 @@ end
 Runtime:addEventListener( "enterFrame", update )
 
 -- generates tile into the slider.
--- NOTE! currently only triggers tile2. whith additional tiles this function will need to randomly choose wich tile to spawn
+-- 
 function tileDelay()
   delayCount = delayCount + 1
   if delayCount == 200 then
-    displayObjectInit(tTable[1])
+    tilesUpdate = 1
+    num = math.random(1,#tTable)
+    displayObjectInit(tTable[num])
     delayCount = 0
   end
 end

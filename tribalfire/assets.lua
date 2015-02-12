@@ -26,19 +26,19 @@ level ={
 		tileExample = {
 			image = 'images/tilesets/tileExample.png',
 			tIndex = tile number,
-			preCollision = function(t) 
+			preCollision = function(t,i) 
 				if t.preCollisionState == 0 then
 					t.preCollisionState = 1
 				end
 				put stuff here
 			end,
-			sideCollsion = function(t) 
+			sideCollision = function(t,i) 
 				put stuff here
 			end,
-			aboveCollision = function(t) 
+			aboveCollision = function(t,i) 
 				put stuff here
 			end,
-			belowCollision = function(t) 
+			belowCollision = function(t,i) 
 				put stuff here
 			end
 		}
@@ -47,7 +47,7 @@ level ={
 			-- tile 1 ground 
 			image = 'images/tilesets/PlatformTiles_brownNature_ByEris_0_64/tile_00.png',
 			tIndex = 1,
-			preCollision = function(t) 
+			preCollision = function(t,i) 
 				if t.preCollisionState == 0 then
 					t.preCollisionState = 1
 					if player.y == ground then
@@ -56,13 +56,34 @@ level ={
 				end
 				
 			end,
-			sideCollision = function(t) 
+			sideCollision = function(t,i) 
 				print('side collision test')
 			end,
-			aboveCollision = function(t) 
+			aboveCollision = function(t,i) 
 				print('above collision test')
 			end,
-			belowCollision = function(t) 
+			belowCollision = function(t,i) 
+				print('below collision test')
+			end
+		},
+		{
+			-- tile 2 gem
+			image = 'images/tilesets/PlatformTiles_brownNature_ByEris_0_64/tile_50.png',
+			tIndex = 2,
+			preCollision = function(t,i) 
+				if t.preCollisionState == 0 then
+					t.preCollisionState = 1
+				end
+			end,
+			sideCollision = function(t,i) 
+				tiles:remove(i)
+				print('10 points!!!!!!')
+				return true
+			end,
+			aboveCollision = function(t,i) 
+				print('above collision test')
+			end,
+			belowCollision = function(t,i) 
 				print('below collision test')
 			end
 		}
@@ -70,7 +91,7 @@ level ={
 }
 
 --holds data on what tile is currently in save slots
-slotTiles = {}
+slotTiles = {nil,nil,nil}
 --holds info on which tiles can be crafted in the save slots 
 compatability = {}
 --[[each element in compatability is an array of recepies for when two tiles combine.
@@ -79,6 +100,7 @@ another tile. eg. dragging 1 onto 5 is deturmined by running compatability[1][5]
 compatability[5][1]. each element will hold either nil for when the two tiles cannot combine or the tIndex of the tile produced
 ]]--
 
-compatability[1] = {1}
+compatability[1] = {1,0}
+compatability[2] = {0,2}
 
 

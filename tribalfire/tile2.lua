@@ -42,8 +42,9 @@ function displayObjectInit(params)
 end
 
 function updateTiles()
-	--print(tiles.numChildren)
-	for i=1,tiles.numChildren,1 do
+	print(tiles.numChildren)
+	for i = 1, tiles.numChildren do
+		--print("test")
 		if tiles[i].state == 'slider' then
 			tiles[i].x = tiles[i].x + 3
 			if tiles[i].x >= ((screenWidth - 74) - (tilesInHand * 43)) then
@@ -58,7 +59,9 @@ function updateTiles()
 		elseif tiles[i].state =='scrolling' then
 			tiles[i].x = tiles[i].x -1
 			if tiles[i].x <= - 200 then
-				--print('tile remove test')
+				print('tile remove test')
+				--table.insert(deleteTiles,tiles[i])
+				--print(#deleteTiles)
 				tiles:remove(i)
 				return
 			elseif tiles[i].x <= 155 and tiles[i].collisionState == 0 then
@@ -75,7 +78,9 @@ function updateTiles()
 			end
 		end
 		if tiles[i].testForCollision == 1 then
-			collisionTest(tiles[i])
+			if collisionTest(tiles[i],i) then
+				return
+			end
 		end
 	end
 	if groundTile then
@@ -142,18 +147,18 @@ function updateTetris()
 	end
 end
 
-function collisionTest(t)
+function collisionTest(t,i)
 	if t.x <= 48 then
 		t.testForCollision = 0
 		return
 	elseif t.orientation then 
 		if t.orientation == 'above' then
 			if t.contentBounds.yMin <= player.contentBounds.yMax then
-				tTable[t.tIndex].aboveCollision(t)
+				return tTable[t.tIndex].aboveCollision(t,i)
 			end
 		elseif t.orientation == 'below' then
 			if t.contentBounds.yMax <= player.contentBounds.yMin then
-				tTable[t.tIndex].belowCollision(t)
+				return tTable[t.tIndex].belowCollision(t,i)
 			end
 		end
 	elseif t.contentBounds.xMin <= player.contentBounds.xMax then
@@ -170,7 +175,7 @@ function collisionTest(t)
 			-- player is colliding from the side
 			--print('side collision call test')
 			t.collisionState = 1
-			tTable[t.tIndex].sideCollision(t)
+			return tTable[t.tIndex].sideCollision(t,i)
 		end
 	end
 end
@@ -181,19 +186,19 @@ function testTileSave(t,event)
 			--print('greenlight')
 			if event.x <= screenWidth-50 then
 				--print(compatabilityTest(3,t))
-				if compatabilityTest(slotTiles[3],t) then
+				if compatabilityTest(3,t) then
 					slots[3]:setStrokeColor(0,1,0)
 				else
 					slots[3]:setStrokeColor(1,0,0)
 				end
 			elseif event.x <= screenWidth-7 then
-				if compatabilityTest(slotTiles[2],t) then
+				if compatabilityTest(2,t) then
 					slots[2]:setStrokeColor(0,1,0)
 				else
 					slots[2]:setStrokeColor(1,0,0)
 				end
 			else
-				if compatabilityTest(slotTiles[1],t) then
+				if compatabilityTest(1,t) then
 					slots[1]:setStrokeColor(0,1,0)
 				else
 					slots[1]:setStrokeColor(1,0,0)
@@ -207,29 +212,42 @@ function tileSave(t,event)
 	if event.y <= 51 then
 		if event.x >= screenWidth-93 then
 			if event.x <= screenWidth-50 then
-				if compatabilityTest(slotTiles[3],t) then
-					t.touchState = 1
-					t.state = 'saved'
-					t.x = screenWidth-70
-					t.y = 35
-					slotTiles[3] = t.tIndex
-					print('slot 3 save')
+				if compatabilityTest(3,t) then
+					if slotTiles[3] == nil then
+						t.touchState = 1
+						t.state = 'saved'
+						t.x = screenWidth-70
+						t.y = 35
+						--slotTiles[3] = t.tIndex
+						slotTiles[3] = t
+						print('slot 3 save')
+					else
+						newTileIndex = compatability[t.tIndex][slotTiles[3].tIndex]
+						local newtile = displayObjectInit(tTable[newTileIndex])
+						newtile.state = 'saved'
+						newtile.x = screenWidth-70
+						newtile.y = 35
+						slotTiles[3] = newtile
+						t:removeSelf()
+					end
 				end
 			elseif event.x <= screenWidth-7 then
-				if compatabilityTest(slotTiles[2],t) then
+				if compatabilityTest(2,t) then
 					t.touchState = 1
 					t.state = 'saved'
 					t.x = screenWidth-27
 					t.y = 35
-					slotTiles[2] = t.tIndex
+					--slotTiles[2] = t.tIndex
+					slotTiles[2] = t
 				end
 			else
-				if compatabilityTest(slotTiles[1],t) then
+				if compatabilityTest(1,t) then
 					t.touchState = 1
 					t.state = 'saved'
 					t.x = screenWidth+16
 					t.y = 35
-					slotTiles[1] = t.tIndex
+					--slotTiles[1] = t.tIndex
+					slotTiles[1] = t
 				end
 			end
 		end
@@ -241,13 +259,13 @@ function tileUnsave(t,event)
 		if event.x >= screenWidth-93 then
 			if event.x <= screenWidth-50 then
 				t.state = 'static'
-				slotTiles[3] = 0
+				slotTiles[3] = nil
 			elseif event.x <= screenWidth-7 then
 				t.state = 'static'
-				slotTiles[2] = 0
+				slotTiles[2] = nil
 			else
 				t.state = 'static'
-				slotTiles[1] = 0
+				slotTiles[1] = nil
 			end
 		end
 	end
@@ -255,9 +273,17 @@ end
 
 -- NOTE! check this function this does not seem right!
 function compatabilityTest(slot,t)
-	if slotTiles[slot] == 0 or compatability[t.tIndex][slotTiles[slot]] ~= 0 then
+	print("compatability")
+	print('slot =' .. slot)
+	--print("slotTiles[slot] = " .. slotTiles[slot])
+	print("t.tIndex =" .. t.tIndex)
+	--print("compatability = " .. compatability[t.tIndex][slotTiles[slot].tIndex])
+	if slotTiles[slot] == nil or compatability[t.tIndex][slotTiles[slot].tIndex] ~= 0 then
+		--print("slotTiles[slot] = " .. slotTiles[slot])
+		print("compatability = true")
 		return true
-	else 
+	else
+	print("compatability = false") 
 		return false
 	end
 end
