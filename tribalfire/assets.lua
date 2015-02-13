@@ -18,8 +18,66 @@
 
 
 local screenHeight = display.viewableContentHeight
+ground = screenHeight - 50
+local delay = 0
+-- character assets
+
+character = {
+	{
+		--image sheet
+		spriteSheet = graphics.newImageSheet( "images/ninja/complete.png", { width=64, height=64, numFrames=16 } ),
+		--sprite sequences
+		sequences = {
+  			{ name="running", start=1, count=6, time=500 },
+  			{ name="jumping", frames={ 9 }}
+		},
+		xPosition = 100,
+		yPosition = ground,
+		state = 'walking',
+		jumpFrom = 0,
+		update = function() 
+			if player.state == 'walking' then
+				return
+			elseif player.state == 'jumpUp' then
+				player.jumpFrom = player.y 
+				player.state = 'jumpingUp'
+		    	player:setSequence("jumping")
+			  	player:play()
+			  	--audio.play(playerYell, {channel = 2, loops=0})
+			elseif player.state == 'jumpingUp' then
+				--change value for jumping speed
+				player.y = player.y - 5
+				--change value for jump height
+				if player.y < player.jumpFrom - 100 then
+					player.state = 'hovering'
+				end
+			elseif player.state == 'hovering' then
+				--print("hovering test")
+				delay = delay + 1
+				--change value for hover time
+				if delay == 60 then
+					--print('delay test')
+					player.state = 'jumpingDown'
+					delay = 0
+				end
+			elseif player.state == 'jumpingDown' then
+				--print(ground)
+				-- change value for falling speed
+				player.y = player.y + 3
+				if player.y >= ground then
+					player.y = ground
+					player.state = 'walking'
+		      		player:setSequence("running")
+		      		player:play()
+				end
+			--add player states here
+			end
+		end
+	},
+}
 
 
+--tile assets
 level ={
 	tiles = {
 		--[[

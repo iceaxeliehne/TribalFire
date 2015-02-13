@@ -81,7 +81,7 @@ local function update(event)
          tilesInHand = 1
          tooManyTiles = 0
          for i=1,3,1 do
-            slotTiles[i] = 0 
+            slotTiles[i] = nil 
          end
          gameStatus = "Running"
       end
