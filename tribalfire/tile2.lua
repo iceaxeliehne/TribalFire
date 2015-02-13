@@ -42,7 +42,7 @@ function displayObjectInit(params)
 end
 
 function updateTiles()
-	print(tiles.numChildren)
+	--print(tiles.numChildren)
 	for i = 1, tiles.numChildren do
 		--print("test")
 		if tiles[i].state == 'slider' then
@@ -121,6 +121,9 @@ function tileTouch(event)
 				event.target.y = event.y
 			end
 		elseif event.phase == "ended" then
+			if event.target.state == 'saved' then
+				return
+			end 
 			if event.target.state ~= 'saved' then
 				event.target.touchState = 0
 			end
@@ -212,44 +215,37 @@ function tileSave(t,event)
 	if event.y <= 51 then
 		if event.x >= screenWidth-93 then
 			if event.x <= screenWidth-50 then
-				if compatabilityTest(3,t) then
-					if slotTiles[3] == nil then
-						t.touchState = 1
-						t.state = 'saved'
-						t.x = screenWidth-70
-						t.y = 35
-						--slotTiles[3] = t.tIndex
-						slotTiles[3] = t
-						print('slot 3 save')
-					else
-						newTileIndex = compatability[t.tIndex][slotTiles[3].tIndex]
-						local newtile = displayObjectInit(tTable[newTileIndex])
-						newtile.state = 'saved'
-						newtile.x = screenWidth-70
-						newtile.y = 35
-						slotTiles[3] = newtile
-						t:removeSelf()
-					end
-				end
+				tileSavePrt2(t,event,3,screenWidth-70)
 			elseif event.x <= screenWidth-7 then
-				if compatabilityTest(2,t) then
-					t.touchState = 1
-					t.state = 'saved'
-					t.x = screenWidth-27
-					t.y = 35
-					--slotTiles[2] = t.tIndex
-					slotTiles[2] = t
-				end
+				tileSavePrt2(t,event,2,screenWidth-27)
 			else
-				if compatabilityTest(1,t) then
-					t.touchState = 1
-					t.state = 'saved'
-					t.x = screenWidth+16
-					t.y = 35
-					--slotTiles[1] = t.tIndex
-					slotTiles[1] = t
-				end
+				tileSavePrt2(t,event,1,screenWidth+16)
 			end
+		end
+	end
+end
+
+function tileSavePrt2(t,event,slot,xPosition)
+	if compatabilityTest(slot,t) then
+		if slotTiles[slot] == nil then
+			t.touchState = 1
+			t.state = 'saved'
+			t.x = xPosition
+			t.y = 35
+			--slotTiles[slot] = t.tIndex
+			slotTiles[slot] = t
+			print('slot 3 save')
+		else
+			local newTileIndex = compatability[t.tIndex][slotTiles[slot].tIndex]
+			displayObjectInit(tTable[newTileIndex])
+			print('tiles numb = ' .. tiles.numChildren)
+			tiles[tiles.numChildren].state = 'saved'
+			tiles[tiles.numChildren].x = xPosition
+			tiles[tiles.numChildren].y = 35
+			tiles[tiles.numChildren].touchState = 1
+			slotTiles[slot]:removeSelf()
+			slotTiles[slot] = tiles[tiles.numChildren]
+			t:removeSelf()
 		end
 	end
 end
@@ -273,17 +269,17 @@ end
 
 -- NOTE! check this function this does not seem right!
 function compatabilityTest(slot,t)
-	print("compatability")
-	print('slot =' .. slot)
+	--print("compatability")
+	--print('slot =' .. slot)
 	--print("slotTiles[slot] = " .. slotTiles[slot])
-	print("t.tIndex =" .. t.tIndex)
+	--print("t.tIndex =" .. t.tIndex)
 	--print("compatability = " .. compatability[t.tIndex][slotTiles[slot].tIndex])
 	if slotTiles[slot] == nil or compatability[t.tIndex][slotTiles[slot].tIndex] ~= 0 then
 		--print("slotTiles[slot] = " .. slotTiles[slot])
-		print("compatability = true")
+		--print("compatability = true")
 		return true
 	else
-	print("compatability = false") 
+		--print("compatability = false") 
 		return false
 	end
 end

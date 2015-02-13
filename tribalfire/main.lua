@@ -97,7 +97,7 @@ function tileDelay()
   delayCount = delayCount + 1
   if delayCount == 200 then
     tilesUpdate = 1
-    num = math.random(1,#tTable)
+    num = math.random(1,2)
     displayObjectInit(tTable[num])
     delayCount = 0
   end

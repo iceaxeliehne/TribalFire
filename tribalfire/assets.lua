@@ -30,16 +30,16 @@ level ={
 				if t.preCollisionState == 0 then
 					t.preCollisionState = 1
 				end
-				put stuff here
+				print("precollision test")
 			end,
 			sideCollision = function(t,i) 
-				put stuff here
+				print("side collision test")
 			end,
 			aboveCollision = function(t,i) 
-				put stuff here
+				print("above collision test")
 			end,
 			belowCollision = function(t,i) 
-				put stuff here
+				print("below collision test")
 			end
 		}
 		]]--
@@ -86,6 +86,26 @@ level ={
 			belowCollision = function(t,i) 
 				print('below collision test')
 			end
+		},
+		{
+			--tile 3 bady
+			image = 'images/tilesets/PlatformTiles_brownNature_ByEris_0_64/tile_51.png',
+			tIndex = 3,
+			preCollision = function(t,i) 
+				if t.preCollisionState == 0 then
+					t.preCollisionState = 1
+				end
+				print("precollision test")
+			end,
+			sideCollision = function(t,i) 
+				print("side collision test")
+			end,
+			aboveCollision = function(t,i) 
+				print("above collision test")
+			end,
+			belowCollision = function(t,i) 
+				print("below collision test")
+			end
 		}
 	}
 }
@@ -100,7 +120,7 @@ another tile. eg. dragging 1 onto 5 is deturmined by running compatability[1][5]
 compatability[5][1]. each element will hold either nil for when the two tiles cannot combine or the tIndex of the tile produced
 ]]--
 
-compatability[1] = {1,0}
-compatability[2] = {0,2}
-
+compatability[1] = {0,3,0}
+compatability[2] = {3,0,0}
+compatability[3] = {0,0,3}
 
