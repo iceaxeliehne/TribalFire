@@ -51,7 +51,7 @@ local blocks = display.newGroup()
 local groundMin = 200
 local groundMax = 340
 local groundLevel = screenHeight 
-local speed = 1
+speed = 1
 
 --loop to generate ground
 for a = 1, 20, 1 do

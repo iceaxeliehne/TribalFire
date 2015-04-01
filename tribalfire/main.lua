@@ -38,7 +38,7 @@ local character = require('character')
 local tile = require('tile2')
 local gameover = require('gameover')
 local button = require('restart')
-
+local badies = require('baddies')
 
 setUpAndArmGameOverButton()
 
@@ -63,7 +63,7 @@ local function update(event)
     updateBackgrounds()
     updateBlocks()
     updatePlayer()
-     
+    updateBaddies()
     updateTiles()
     
     if tooManyTiles == 0 then

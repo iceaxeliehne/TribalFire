@@ -36,17 +36,31 @@ function playerInit(params)
 	player.state = params.state
 	player.jumpFrom = params.jumpFrom
 
-	player:play()
+	--player:play()
 	return player
 end
 
 --add characters/objects to scene here
+farLeg = playerInit(character[2])
+farArm = playerInit(character[3])
 player = playerInit(character[1])
+player.health = 1
+player.timer = 0
+nearLeg = playerInit(character[2])
+nearArm = playerInit(character[3])
 
+function PlayerItemInit(params)
+    local item = display.newImageRect(params.image,40,40)
+    item.rotation = -20
+    item.x = 110
+    item.y = ground - 8
+    item.hitPoints = params.hitPoints
+    return item
+end
 
 -- contains code for animating each state for the character
 function updatePlayer()
 	for i = 1, #character do
-		character[1].update()
+		character[i].update()
 	end
 end

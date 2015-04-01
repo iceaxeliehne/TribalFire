@@ -25,11 +25,18 @@ function displayObjectInit(params)
 	local t = display.newImageRect(params.image,40,40)
 	t.x = -25
 	t.y = 35
+	if params.angle then
+		t.rotation = params.angle
+	end
 	-- state can be 'slider','static', 'scrolling', 'falling'
 	t.state = 'slider'
 	-- collision index sends to unique functions for tile collisions
 	t.tIndex = params.tIndex
 	--change to 0 to disable touch
+	if params.badyIndex then
+		print("badyIndex test")
+		t.badyIndex = params.badyIndex
+	end
 	t.touchState = 0
 	t:addEventListener( "touch", tileTouch )
 	-- pre collision state checks wether the character has reacted to the approaching tile
@@ -130,7 +137,14 @@ function tileTouch(event)
 			resetSlotColor()
 			tileSave(event.target,event)
 			if event.target.state ~= 'saved' and event.target.y <= ground then
-				event.target.state = "falling"
+				print("bady test est falling")
+				if event.target.badyIndex then
+					print("test bady spawn")
+					baddiesInit(event.target.x,event.target.y,badies[event.target.badyIndex])
+					event.target:removeSelf()
+				else
+					event.target.state = "falling"
+				end
 			elseif event.target.state ~= 'saved' then
 				event.target.state = 'scrolling'
 			end
